@@ -1,0 +1,11 @@
+*.whl
+
+*.bin
+
+.env
+
+*.db
+
+*.txt
+
+__pycache__
