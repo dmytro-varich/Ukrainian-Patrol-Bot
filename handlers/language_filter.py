@@ -17,18 +17,18 @@ lang_router: Router = Router()
 
 async def language_filter(message: Message, chat_id: int):
     msg = message.text
-    print(msg)
+    # print(msg)
 
     text = tokenization(msg)
-    print(text)
-    print("TEST", translate_to_ukrainian(text))
+    # print(text)
+    # print("TEST", translate_to_ukrainian(text))
 
     try: 
         sngl_det_lang = single_detection(text, api_key=API_KEY)
     except:
         sngl_det_lang = text
 
-    print("TEST", sngl_det_lang)
+    # print("TEST", sngl_det_lang)
 
     word_ru_msg = list()
     word_trans_ua_msg = list()
@@ -60,17 +60,28 @@ async def language_detect_filter(message: Message):
         words = text_no_punct.split() 
         swear_words_list = list()
         flag = False
+        flag_2 = False 
+        # temp_msg_for_answer = ''
         for word in words:
             # print(word)
             if is_obscene(word.lower()):
                 swear_words_list.append(word)
                 flag = True
+                # temp_msg_for_answer = ''
+        merged_text = [x.lower() for x in text.split() if len(x) == 1]
+        if is_obscene(''.join(merged_text)):
+        	 swear_words_list.append(''.join(merged_text))
+        	 flag_2 = True
+        	 # temp_msg_for_answer = '\n\n !<b>Якщо якесь слово в цьому списку не є нецензурним. повідомте службу підтримки!</b>'
+            	
         
         # print(flag)
         # print("Check swear word: ", swear_words_list)  
-        if flag:
+        if flag or flag_2:
             await message.reply(swear_control_text_main.format(', '.join(swear_words_list)))
             flag = False
+            flag_2 = False
+            # temp_msg_for_answer = ''
         elif await check_filter_state(chat_id, "filter_states"):
             await language_filter(message, chat_id)
     elif await check_filter_state(chat_id, "filter_states"):
