@@ -84,9 +84,9 @@ def is_obscene(word: str) -> bool:
     # pattern26 = r'[пp][еe][рr][еe]'
     # pattern27 = r'[oо][дdg][нnh][оo]'
     # pattern28 = r'[кk][oо][нnh][оo]'
-    pattern29 = r'(?!mydas)[мm][уy][дdg][oоaа]'
+    pattern29 = r'(?!mydas)\b[мm][уy][дdg][oоaа][кk]'
     # pattern30 = r'[oо][сc][тt][оo]'
-    # pattern31 = r'[дdg][уy][рpr][оoаa]'
+    pattern31 = r'\b[мm][pr][аa][зz3][ъьеёeěуаіиыое]\b'
     pattern32 = r'\b[ш][ао][б][ао][л][д][уаіиыое]'
 
     # Patterns for the fifth set:
@@ -96,7 +96,7 @@ def is_obscene(word: str) -> bool:
     pattern36 = r'\b[еёeě][bб6][а@a][tт]'
     pattern37 = r'\b[еeєě][бbpп][тt][oоаaeěеуyыиi]'
     pattern38 = r'\bйо[бb6][аa]'
-    pattern39 = r'(?!(?:hue|hueso|Hueso|Хуедин|Hyundai))\b[hхx][уyu][ийiеeёяюju]'
+    pattern39 = r'(?!(?:hue|hueso|Hueso|Хуедин|Hyundai))[hхx][уyu][ийiеeёяюju]'
 
     # Patterns for the sixth set:
     pattern40 = r'\b[гg][оo][вvb][нnh][оoаaуy]'
@@ -120,18 +120,18 @@ def is_obscene(word: str) -> bool:
     #             pattern26, pattern27, pattern28, pattern29, pattern30, pattern31, pattern32, pattern33,
     #             pattern34, pattern35, pattern36, pattern37, pattern38, pattern39, pattern40, pattern41, pattern41_1, pattern41_2,
     #             pattern42, pattern43, pattern44, pattern45, pattern46, pattern47, pattern48, pattern49, pattern49_1]
-    patterns = [pattern29, pattern32, pattern33, pattern34, pattern35, pattern36, pattern37, pattern38, pattern39, pattern40, pattern41, pattern41_1, pattern41_2,
-                pattern42, pattern43, pattern44, pattern45, pattern46, pattern48, pattern49, pattern49_1]
+    patterns = [pattern29, pattern31, pattern32, pattern33, pattern34, pattern35, pattern36, pattern37, pattern38, pattern39, pattern40, pattern41, pattern41_1, pattern41_2,
+                pattern42, pattern43, pattern44, pattern45, pattern46, pattern48]
 
-    print("check swear word:", word)
+    # print("check swear word:", word)
     if re.search(obscene_pattern, word, re.IGNORECASE):
         return True
     else:
         for pattern in patterns:
             matches = re.findall(pattern, word, re.IGNORECASE)
             if matches:
-                # print("matches: ", matches)
+                # print("matches: ", matches
                 print(pattern)
                 return True
-            
+            	
         return False
