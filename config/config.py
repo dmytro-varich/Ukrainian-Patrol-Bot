@@ -5,8 +5,9 @@ load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 OWNER_ID = int(os.getenv('OWNER_ID'))
-FILE_PATH = os.getenv('FILE_PATH')
+FILE_PATH = r'databases/ua_ru_words_homographs.txt'
 API_KEY = os.getenv('API_KEY')
 
 maintenance_mode = False
+
 
