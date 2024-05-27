@@ -43,6 +43,16 @@ def text_no_punct_func(message: str) -> str:
     return message.translate(translation_table)
 
 
+def find_repeated_letters(word):
+    count = 0
+    for char in word:
+        if char == word[0] and char in "бвгґджзклмнпрстфхцчшщаеєиіїоуюяйь":
+           count+=1
+        elif char == word[1] and char in "бвгґджзклмнпрстфхцчшщаеєиіїоуюяйь":
+            count+=1
+    if count > 2: return ''
+    else: return word
+
 def tokenization(message: str) -> str:
     text_no_punct = text_no_punct_func(message)
 
@@ -50,13 +60,15 @@ def tokenization(message: str) -> str:
     if len(text_no_punct.lower()) == 1:
         if text_no_punct not in ['ы', 'ъ', 'ё', 'э']:
             text_no_punct = ''
-    
+    # print("Alo:", message)
+    # бвгґджзклмнпрстфхцчшщаеєиіїоуюяйь
     # ignore laugh in text:
-    pattern = r'\b(?:.*?(?:хе|пх|ах|хи|хє|хі|ха)){2,}.*?\b'
+    pattern = r'\b(?:.*?(хе|пх|ах|хи|хє|хі|ха)){2,}.*?\b'
     text_no_laugh = re.sub(pattern, '', text_no_punct.lower(), flags=re.IGNORECASE)
-    
+    # print(text_no_laugh)
+    text_no_repeated_letters = find_repeated_letters(text_no_laugh)
     # ignore 
-    words = text_no_laugh.split()
+    words = text_no_repeated_letters.split()
     # print(words)
     filtered_words = [word for word in words if check_word(word)]
     filtered_text = ' '.join(filtered_words)
